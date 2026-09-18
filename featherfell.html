@@ -10,14 +10,15 @@
      citation_pdf_url is set for the directedLink/featherfell GitHub Pages
      repo (https://directedlink.github.io/featherfell/). If you ever rename
      the repo, the owner account, or move to a custom domain, update this
-     URL to match. citation_publication_date currently has the year only;
-     add the full date (YYYY/MM/DD) if you know the exact publication date.
+     URL to match. citation_doi is the Zenodo VERSION DOI (v1), which is
+     what should be cited for this specific version.
      ================================================================ -->
 <meta name="citation_title" content="Featherfell: Paper Marking Platform">
 <meta name="citation_author" content="Cao, Wenjun">
-<meta name="citation_publication_date" content="2026">
+<meta name="citation_publication_date" content="2026/09/18">
 <meta name="citation_pdf_url" content="https://directedlink.github.io/featherfell/featherfell.pdf">
-<meta name="citation_online_date" content="2026">
+<meta name="citation_online_date" content="2026/09/18">
+<meta name="citation_doi" content="10.5281/zenodo.22832552">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,6 +70,7 @@
   .authors {
     font-size: 1.05rem;
     margin: 0 0 4px;
+    text-align: center;
   }
 
   .authors a { color: var(--muted); }
@@ -77,41 +79,34 @@
     margin: 28px 0 8px;
     display: flex;
     justify-content: center;
-    gap: 12px;
+    align-items: baseline;
+    gap: 22px;
     flex-wrap: wrap;
   }
 
   .pdf-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 20px;
-    border: 1px solid var(--ink);
-    border-radius: 3px;
-    color: var(--ink);
+    color: var(--muted);
     text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    transition: background 0.15s ease, color 0.15s ease;
+    font-size: 0.92rem;
+    border-bottom: 1px solid transparent;
+    margin-right: 22px;
   }
 
   .pdf-link:hover {
-    background: var(--ink);
-    color: var(--bg);
+    color: var(--ink);
+    border-bottom-color: var(--muted);
   }
 
   .site-link {
-    display: inline-flex;
-    align-items: center;
-    padding: 9px 20px;
     color: var(--accent);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     border-bottom: 1px solid transparent;
   }
 
-  .site-link:hover { border-bottom-color: var(--accent); }
+  .site-link:hover {
+    border-bottom-color: var(--accent);
+  }
 
   hr.rule {
     border: none;
@@ -260,6 +255,47 @@
     left: 0;
     color: var(--accent);
     font-weight: 600;
+  }
+
+  /* ---------- How to cite / BibTeX ---------- */
+
+  .bibtex-wrap {
+    position: relative;
+    margin: 20px 0 8px;
+  }
+
+  .bibtex {
+    margin: 0;
+    padding: 20px 22px;
+    background: var(--accent-soft);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow-x: auto;
+    font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+    font-size: 0.83rem;
+    line-height: 1.6;
+    color: var(--ink);
+    white-space: pre;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 12px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .copy-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
   }
 
   /* ---------- Footer ---------- */
@@ -517,9 +553,34 @@
     <li id="ref-7">Jason Priem, Heather Piwowar, and Richard Orr. OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts. <em>arXiv preprint arXiv:2205.01833</em>, 2022.</li>
   </ol>
 
+  <h2>How to cite</h2>
+  <p>If you refer to or build on this work, please cite it as:</p>
+  <div class="bibtex-wrap">
+    <button class="copy-btn" onclick="copyBibtex(this)" type="button">Copy</button>
+    <pre class="bibtex" id="bibtex">@misc{cao2026featherfell,
+  author    = {Cao, Wenjun},
+  title     = {Featherfell: Paper Marking Platform},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22832552},
+  url       = {https://doi.org/10.5281/zenodo.22832552}
+}</pre>
+  </div>
+
   <footer>
     Featherfell: Paper Marking Platform &middot; Wenjun Cao &middot; 2026
   </footer>
+
+  <script>
+    function copyBibtex(btn) {
+      var text = document.getElementById('bibtex').innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        var original = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = original; }, 1500);
+      });
+    }
+  </script>
 
 </div>
 </body>

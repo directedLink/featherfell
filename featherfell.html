@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Featherfell: Paper Marking Platform</title>
+
+<!-- ===================================================================
+     Google Scholar citation meta tags (Highwire Press tags).
+     citation_pdf_url is set for the directedLink/featherfell GitHub Pages
+     repo (https://directedlink.github.io/featherfell/). If you ever rename
+     the repo, the owner account, or move to a custom domain, update this
+     URL to match. citation_publication_date currently has the year only;
+     add the full date (YYYY/MM/DD) if you know the exact publication date.
+     ================================================================ -->
+<meta name="citation_title" content="Featherfell: Paper Marking Platform">
+<meta name="citation_author" content="Cao, Wenjun">
+<meta name="citation_publication_date" content="2026">
+<meta name="citation_pdf_url" content="https://directedlink.github.io/featherfell/featherfell.pdf">
+<meta name="citation_online_date" content="2026">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #FBFAF7;
+    --ink: #1B1B1B;
+    --muted: #5B5A54;
+    --rule: #DFDBD0;
+    --accent: #2F4858;
+    --accent-soft: #E9EEEF;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    padding: 0 20px 96px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    line-height: 1.65;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Header ---------- */
+
+  header {
+    padding-top: 64px;
+    text-align: center;
+  }
+
+  h1.title {
+    font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.15rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0 0 18px;
+  }
+
+  .authors {
+    font-size: 1.05rem;
+    margin: 0 0 4px;
+  }
+
+  .authors a { color: var(--muted); }
+
+  .links-row {
+    margin: 28px 0 8px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .pdf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .pdf-link:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .site-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 20px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-bottom: 1px solid transparent;
+  }
+
+  .site-link:hover { border-bottom-color: var(--accent); }
+
+  hr.rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 40px 0;
+  }
+
+  /* ---------- Abstract ---------- */
+
+  .abstract-heading {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 14px;
+  }
+
+  .abstract-body {
+    font-size: 0.97rem;
+    color: var(--ink);
+    padding: 0 6px;
+  }
+
+  /* ---------- Body typography ---------- */
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(47,72,88,0.35); }
+  a:hover { border-bottom-color: var(--accent); }
+
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 52px 0 18px;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  h3 {
+    font-size: 1.08rem;
+    font-weight: 700;
+    margin: 36px 0 14px;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+
+  .num {
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 0.45em;
+  }
+
+  p { margin: 0 0 16px; text-align: left; }
+
+  p.runin { margin-bottom: 16px; }
+  p.runin strong { font-weight: 700; }
+
+  em { font-style: italic; }
+
+  /* ---------- Figures ---------- */
+
+  figure {
+    margin: 36px 0;
+    text-align: center;
+  }
+
+  figure img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+
+  figcaption {
+    margin-top: 12px;
+    font-size: 0.87rem;
+    color: var(--muted);
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  figcaption .fignum { font-weight: 600; color: var(--ink); }
+
+  /* ---------- Table ---------- */
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 32px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 0.87rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  caption .fignum { font-weight: 600; color: var(--ink); }
+
+  thead th {
+    text-align: left;
+    padding: 8px 14px 8px 0;
+    border-bottom: 1px solid var(--ink);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 10px 14px 10px 0;
+    border-bottom: none;
+    vertical-align: top;
+  }
+
+  table { border-top: 2px solid var(--ink); }
+  tbody tr:last-child td { border-bottom: 2px solid var(--ink); padding-bottom: 12px; }
+  thead tr th { padding-top: 10px; }
+
+  /* ---------- References ---------- */
+
+  .references {
+    list-style: none;
+    counter-reset: refcounter;
+    padding: 0;
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .references li {
+    counter-increment: refcounter;
+    position: relative;
+    padding-left: 2.1em;
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+
+  .references li::before {
+    content: "[" counter(refcounter) "]";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 480px) {
+    body { font-size: 16.5px; padding-bottom: 64px; }
+    header { padding-top: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1 class="title">Featherfell: Paper Marking Platform</h1>
+    <p class="authors">Wenjun Cao</p>
+    <div class="links-row">
+      <a class="pdf-link" href="featherfell.pdf">Download PDF</a>
+      <a class="site-link" href="https://featherfell.com">featherfell.com</a>
+    </div>
+  </header>
+
+  <hr class="rule">
+
+  <p class="abstract-heading">Abstract</p>
+  <p class="abstract-body">
+    Featherfell is a platform where researchers mark papers they encounter and read, indexing more than
+    240 million scholarly works across all academic disciplines through OpenAlex. A researcher searches
+    for a paper by title or identifier, marks it as <em>Want to Read</em>, <em>Reading</em>, or <em>Read</em>,
+    optionally adds a short note, and moves on. Over months the markings accumulate into a reading wall of
+    paper covers, with the platform deliberately omitting ratings, reference management, and bulk import.
+    The platform is available at <a href="https://featherfell.com">https://featherfell.com</a>.
+  </p>
+
+  <hr class="rule">
+
+  <h2><span class="num">1</span> Introduction</h2>
+  <p>
+    Researchers encounter papers through classes, social media, citation lists, and conversations with
+    colleagues, and regularly finish reading a paper without noting it anywhere. Reference managers like
+    Zotero and Mendeley can track these papers, but they are organized around documents: importing a PDF,
+    filing it into a folder, and maintaining the structure takes more effort than simply noting a paper
+    down. Google Scholar’s Library lets researchers star papers, but the result is an unordered list with
+    no temporal or disciplinary structure, and hundreds of starred items do not organize themselves into
+    anything useful. We built Featherfell, a paper marking platform that covers all academic disciplines
+    through OpenAlex [<a href="#ref-7">Priem et al., 2022</a>]. A researcher searches for a paper, marks
+    it, and moves on, with no files to import and no folders to maintain.
+  </p>
+  <p>
+    As markings accumulate over months, they form a record of which papers one researcher chose to pay
+    attention to, in what order. Reading is an activity central to research that currently produces no
+    record in scholarly infrastructure. <a href="#sec-traces">Section&nbsp;3</a> describes the properties
+    of this accumulated record.
+  </p>
+
+  <figure>
+    <img src="fig/homepage.png" alt="Screenshot of the Featherfell homepage">
+    <figcaption><span class="fignum">Figure 1:</span> The Featherfell homepage.</figcaption>
+  </figure>
+
+  <h2><span class="num">2</span> Featherfell</h2>
+
+  <h3><span class="num">2.1</span> Finding and marking a paper</h3>
+  <p>
+    The search box accepts paper titles, DOIs, arXiv IDs, PMIDs, and PMC IDs. Search results appear as a
+    card grid, with each card showing the paper’s cover (rendered from the first page of the PDF, or a
+    synthesized cover when no PDF is available), title, authors, publication venue, year, and a discipline
+    tag.
+  </p>
+
+  <figure>
+    <img src="fig/search.png" alt="Screenshot of Featherfell search results spanning multiple disciplines">
+    <figcaption><span class="fignum">Figure 2:</span> Search results. Results span multiple disciplines.</figcaption>
+  </figure>
+
+  <p>
+    Featherfell indexes scholarly works through OpenAlex, covering more than 240 million works across all
+    academic disciplines [<a href="#ref-7">Priem et al., 2022</a>]. Cross-disciplinary coverage is
+    deliberate: a researcher’s reading often spans multiple fields, and restricting the platform to a
+    single discipline would erase that dimension. Papers without a DOI, common in humanities and social
+    science journals, are indexed through their OpenAlex ID and remain searchable. OpenAlex was selected
+    for its coverage of humanities and social sciences, which other scholarly indexes tend to
+    underrepresent.
+  </p>
+  <p>
+    The detail page for a paper shows its abstract, a PDF preview, author list, citation count,
+    publication source, and year. A researcher marks the paper as <em>Want to Read</em>, <em>Reading</em>,
+    or <em>Read</em>. After marking a paper as read, the researcher can write a single short note, a
+    personal reminder rather than a published review. Each paper allows one note at most, keeping the
+    platform a place for marking rather than discussion.
+  </p>
+
+  <figure>
+    <img src="fig/detail.png" alt="Screenshot of a paper's detail page on Featherfell">
+    <figcaption><span class="fignum">Figure 3:</span> A paper’s detail page.</figcaption>
+  </figure>
+
+  <h3><span class="num">2.2</span> The reading wall</h3>
+  <p>
+    Each marking takes a second, collecting a paper from any channel into one place. As markings
+    accumulate over weeks and months, they fill a reading wall. Each card on the wall shows the first page
+    of the paper’s PDF. The visual design takes cues from Letterboxd’s treatment of movie posters, making
+    the wall something a researcher enjoys looking at. If the marked papers span several disciplines, the
+    wall reflects that visually through different discipline color tags.
+  </p>
+
+  <figure>
+    <img src="fig/reading-wall.png" alt="Screenshot of a Featherfell reading wall showing many paper covers">
+    <figcaption><span class="fignum">Figure 4:</span> A reading wall. Each card shows the cover of a paper the researcher has marked.</figcaption>
+  </figure>
+
+  <h3><span class="num">2.3</span> Browsing</h3>
+  <p>
+    The platform provides browsing by discipline, using the field level of OpenAlex’s topic hierarchy,
+    which organizes scholarly work into 26 fields. Field-level tags appear throughout the site rather than
+    finer subfield tags because subfield classification is sometimes inaccurate (OpenAlex labels
+    FlashAttention under Gaze Tracking, for instance), while the parent field (Computer Science) is almost
+    always correct.
+  </p>
+
+  <figure>
+    <img src="fig/fields.png" alt="Screenshot of the fields browsing page showing 26 discipline tags">
+    <figcaption><span class="fignum">Figure 5:</span> The fields browsing page, showing 26 discipline tags.</figcaption>
+  </figure>
+
+  <p>
+    Clicking any author’s name opens a page listing that author’s works. Researchers can also create
+    collections to group papers by theme outside the chronological reading wall.
+  </p>
+
+  <h3><span class="num">2.4</span> What it doesn’t do</h3>
+  <p class="runin"><strong>No ratings.</strong> Featherfell does not ask researchers to rate papers.
+    Marking a paper should take one second, without the cognitive overhead of choosing how many stars it
+    deserves.</p>
+  <p class="runin"><strong>No reference management.</strong> Featherfell does not store PDFs, manage
+    bibliographies, or generate citations. Keeping track of papers and managing a document library are
+    different activities, and the second has excellent dedicated tools already.</p>
+  <p class="runin"><strong>No bulk import.</strong> There is no way to import hundreds of papers at once.
+    A reading wall that grew over months of individual markings is a fundamentally different object from
+    one filled in an afternoon.</p>
+
+  <h2 id="sec-traces"><span class="num">3</span> Reading traces and the broader context</h2>
+  <p>
+    When a researcher uses Featherfell over months, marking papers as they are encountered, the markings
+    accumulate into a reading trace: a record of which papers one person chose to pay attention to, in the
+    order they were marked.
+  </p>
+  <p>
+    Machine-generated text has entered scholarly submissions and peer review at growing scale
+    [<a href="#ref-6">Naddaf, 2025</a>, <a href="#ref-4">Agarwal et al., 2026</a>, <a href="#ref-5">Emi, 2025</a>].
+    As producing a passable paper becomes cheaper, metrics that evaluate researchers by counting output
+    lose their ability to distinguish. Citations, h-index values, and review scores are all numerical and
+    strategically optimizable.
+  </p>
+  <p>
+    A reading trace has different properties. It grows only through continued use, one paper at a time,
+    and cannot be generated in bulk. The trace is bound to a specific person, and transplanting someone
+    else’s reading history onto a different account would not represent actual choices. Because the
+    platform makes marking enjoyable, researchers maintain their traces without institutional mandates or
+    external incentives.
+  </p>
+
+  <figure>
+    <img src="fig/trace-concept.png" alt="Conceptual illustration of reading traces accumulating over time">
+    <figcaption><span class="fignum">Figure 6:</span> Conceptual illustration of reading traces accumulating over time. Colors suggest different disciplines.</figcaption>
+  </figure>
+
+  <p>
+    Reading is an activity central to research that currently produces no record in scholarly
+    infrastructure. Featherfell provides a place where it does.
+  </p>
+
+  <h2><span class="num">4</span> Related platforms</h2>
+  <p>
+    Several independent projects have recently built tools for tracking what researchers read, suggesting
+    that the need is widely felt. <a href="#tab-platforms">Table&nbsp;1</a> compares these platforms.
+  </p>
+
+  <div class="table-wrap">
+    <table id="tab-platforms">
+      <caption><span class="fignum">Table 1:</span> Platforms that track what researchers read, compared by what they record, whether they introduce ratings, and their disciplinary scope.</caption>
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>What it records</th>
+          <th>Rating</th>
+          <th>Record bound to</th>
+          <th>Disciplinary scope</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>goodpapers [<a href="#ref-2">goo, 2026</a>]</td>
+          <td>Reading status, short reviews</td>
+          <td>Half-star</td>
+          <td>Person</td>
+          <td>CS-focused</td>
+        </tr>
+        <tr>
+          <td>Paper&nbsp;Trails [<a href="#ref-3">pap, 2026</a>]</td>
+          <td>Reading status, shelves</td>
+          <td>Star</td>
+          <td>Person</td>
+          <td>Any URL</td>
+        </tr>
+        <tr>
+          <td>AlphaXiv [<a href="#ref-1">alp, 2024</a>]</td>
+          <td>Text comments on papers</td>
+          <td>No</td>
+          <td>Document</td>
+          <td>arXiv papers</td>
+        </tr>
+        <tr>
+          <td>Featherfell</td>
+          <td>Reading choices over months</td>
+          <td>No</td>
+          <td>Person</td>
+          <td>All disciplines</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Featherfell is the only platform listed that combines person-level records, no ratings, and
+    cross-disciplinary coverage through a structured scholarly index.
+  </p>
+
+  <h2><span class="num">5</span> Conclusion</h2>
+  <p>
+    Featherfell is designed to do one thing well: let researchers mark the papers they come across, with
+    no management overhead. The platform is live at
+    <a href="https://featherfell.com">https://featherfell.com</a>.
+  </p>
+
+  <hr class="rule">
+
+  <h2 style="margin-top:0;">References</h2>
+  <ol class="references">
+    <li id="ref-1">alphaxiv. <a href="https://alphaxiv.org">https://alphaxiv.org</a>, 2024. Accessed: 2026-08-31.</li>
+    <li id="ref-2">goodpapers: Research paper tracker &amp; reading list. <a href="https://goodpape.rs">https://goodpape.rs</a>, 2026. Accessed: 2026-08-31.</li>
+    <li id="ref-3">Paper trails. <a href="https://www.papertrailshq.com/">https://www.papertrailshq.com/</a>, 2026. Accessed: 2026-08-31.</li>
+    <li id="ref-4">Alekh Agarwal, Miroslav Dud&iacute;k, Sharon Li, Martin Jaggi, Nihar B. Shah, Katherine Gorman, and Gautam Kamath. On violations of LLM review policies. <em>ICML Blog</em>, 2026. URL <a href="https://blog.icml.cc/2026/03/18/on-violations-of-llm-review-policies/">https://blog.icml.cc/2026/03/18/on-violations-of-llm-review-policies/</a>. Accessed: 2026-08-31.</li>
+    <li id="ref-5">Bradley Emi. Pangram predicts 21% of ICLR reviews are AI-generated. <a href="https://www.pangram.com/blog/pangram-predicts-21-of-iclr-reviews-are-ai-generated">https://www.pangram.com/blog/pangram-predicts-21-of-iclr-reviews-are-ai-generated</a>, 2025. Accessed: 2026-08-31.</li>
+    <li id="ref-6">Miryam Naddaf. Major AI conference flooded with peer reviews written fully by AI. <em>Nature</em>, 648:256&ndash;257, 2025. URL <a href="https://doi.org/10.1038/d41586-025-03506-6">https://doi.org/10.1038/d41586-025-03506-6</a>.</li>
+    <li id="ref-7">Jason Priem, Heather Piwowar, and Richard Orr. OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts. <em>arXiv preprint arXiv:2205.01833</em>, 2022.</li>
+  </ol>
+
+  <footer>
+    Featherfell: Paper Marking Platform &middot; Wenjun Cao &middot; 2026
+  </footer>
+
+</div>
+</body>
+</html>
